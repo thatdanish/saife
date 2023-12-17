@@ -1,4 +1,5 @@
 import tensorflow as tf
+
 import tflearn
 import math
 import numpy as np
@@ -150,6 +151,7 @@ def discriminator(z, n_hidden, n_output, keep_prob, reuse=False):
 
     with tf.variable_scope("discriminator", reuse=reuse):
         # initializers
+        
         w_init = tf.contrib.layers.xavier_initializer()
         b_init = tf.constant_initializer(0.)
 

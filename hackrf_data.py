@@ -60,7 +60,7 @@ def gendata(infile):
     for data in pd.read_csv(infile, header=None, chunksize=linesperchunk*skiprows):
         for i in range(linesperchunk): 
             sf = data[(skiprows*i):(skiprows*(i+1))].sort_values(by=2)
-            dta= sf.as_matrix(range(6,int(linebw/fres)+6))
+            dta= sf[range(6,int(linebw/fres)+6)].values
             farr=np.vstack((farr,dta.flatten()[:nbins]))
         cntr=cntr+linesperchunk
         if cntr>=flines:

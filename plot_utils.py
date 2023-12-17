@@ -102,7 +102,7 @@ class Plot_Manifold_Learning_Result():
             i = int(idx % size[1])
             j = int(idx / size[1])
 
-            image_ = imresize(image, size=(w_, h_), interp='bicubic')
+            image_ = resize(image, size=(w_, h_), interp='bicubic')
 
             img[j * h_:j * h_ + h_, i * w_:i * w_ + w_] = image_.T
 
