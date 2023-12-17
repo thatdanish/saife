@@ -58,3 +58,8 @@ Execute following commands on Terminal:
 5. `pip install tflearn`
 
 6. `pip install matplotlib pandas`
+
+### Sample Run: 
+Run following command: 
+
+    python spectrum_semsup_cat.py --prior_type normal --num_epochs=510 --PMLR_n_samples=500 --learn_rate=0.05e-3 --dimz=50
