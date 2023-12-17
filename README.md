@@ -51,9 +51,9 @@ Execute following commands on Terminal:
  
  2. `conda activate saife`
  
- 3. `pip install tensorflow ==1.15`
+ 3. `pip install tensorflow==1.15`
 
-4. `pip install scipy == 1.2`
+4. `pip install scipy==1.2`
 
 5. `pip install tflearn`
 
