@@ -6,6 +6,8 @@ import numpy as np
 
 ncells=64
 
+# Adds additional channels (xx_channel, yy_channel) to the input tensor. 
+# These represent normalized spatial coordinates.
 def add_ij(input_tensor, x_dim, y_dim, with_r=False):
     """
     input_tensor: (batch, x_dim, y_dim, c)
@@ -56,6 +58,8 @@ def CNN_encoder_cat(x, tsamples, nsamples, n_output, nlabels=5):
         cat = tflearn.fully_connected(encoder, nlabels, activation='softmax', name="catout")
         output = tflearn.fully_connected(encoder, n_output, activation='linear', name="zout")
     return output,cat
+
+#Performs simple up-sampling. (Inserts a zero between two values in both dimensions)
 def upsample(x):
     shape = x.get_shape().as_list()
 
@@ -69,6 +73,7 @@ def upsample(x):
     r4 = tf.add(r3_l, r3_r)
     r5 = tf.reshape(r4, [shape[0], shape[1] * 2, shape[2] * 2, shape[3]])
     return r5
+
 # CNN as decoder
 def CNN_decoder(z, tsamples, nsamples,reuse=False):
     with tf.variable_scope("CNN_decoder", reuse=reuse):
@@ -100,28 +105,29 @@ def CNN_decoder(z, tsamples, nsamples,reuse=False):
         x = tflearn.reshape(x ,[-1,tsamples,nsamples], name="reshaped")
     return x,y 
 
+#??????
 def CNN_decoder_test(z, tsamples, nsamples,reuse=False):
     with tf.variable_scope("CNN_decoder", reuse=reuse):
         x = tflearn.fully_connected(z, nsamples/8*32*nsamples/8, activation='tanh')
         x = tf.reshape(x, shape=[-1, nsamples/8, nsamples/8, 32])
         decoder = tflearn.conv_2d(x, 32, [3,3], activation='tanh')
-        print(decoder.get_shape())
+        #print(decoder.get_shape())
         #decoder = tflearn.batch_normalization(decoder)
         decoder = tflearn.upsample_2d(decoder, [2,2])
-        print(decoder.get_shape())
+        #print(decoder.get_shape())
         decoder = tflearn.conv_2d(decoder, 32, [3,3], activation='tanh')
-        print(decoder.get_shape())
+        #print(decoder.get_shape())
         #decoder = tflearn.batch_normalization(decoder)
         decoder= tflearn.upsample_2d(decoder, [3,2])
         #decoder= tflearn.upsample_2d(decoder, [2,2])
-        print(decoder.get_shape())
+        #print(decoder.get_shape())
         decoder = tflearn.conv_2d(decoder, 32, [3,3], activation='tanh')
-        print(decoder.get_shape())
+        #print(decoder.get_shape())
         #decoder = tflearn.batch_normalization(decoder)
         decoder= tflearn.upsample_2d(decoder, [2,2])
-        print(decoder.get_shape())
+        #print(decoder.get_shape())
         y = tflearn.conv_2d(decoder, 1, [3,3], activation='linear', name="sigout")
-        print(y.get_shape())
+        #print(y.get_shape())
         #y = tflearn.conv_2d(x, 1, [2,2], activation='relu', name="sigout0")
         #y = tflearn.fully_connected(y,tsamples*nsamples, activation="linear", name="sigout")
         #y = tf.reshape(y,[-1,tsamples,nsamples])
@@ -146,6 +152,8 @@ def LSTM_decoder(z, tsamples, nsamples,reuse=False):
         x = tflearn.reshape(x ,[-1,tsamples,nsamples], name="reshaped")
     return x,y 
 
+
+#Defines discriminator neural network.(A component of GAN which classify whether a given input belongs to real or generated data)
 # Discriminator
 def discriminator(z, n_hidden, n_output, keep_prob, reuse=False):
 
@@ -240,12 +248,14 @@ def linear_transform(x, vdim, reuse=False):
         out = tflearn.fully_connected(x, vdim, activation="linear", bias=False)
     return out
 
-
+#Defines autoencoder with additional component for semantic supervision (A process of providing additional,
+# meaningful, and interpretable information to a machine learning model during training. Here it a categorical label x_id)
 #Semisupervised aae for cat 
 def adversarial_autoencoder_semsup_cat_nodimred(x_hat, x, x_id, z_sample, cat_sample, dim_img, dim_z, n_hidden, keep_prob, nlabels=4, vdim=2):
     tsamples = dim_img[0]
     nsamples = dim_img[1]
     ## Reconstruction Loss
+   
     # encoding
     z,cat = CNN_encoder_cat(x_hat, tsamples, nsamples, dim_z, nlabels=cat_sample.get_shape()[1])
     #z,cat = LSTM_encoder_cat(x_hat, tsamples, nsamples, dim_z, nlabels=cat_sample.get_shape()[1])
@@ -262,6 +272,8 @@ def adversarial_autoencoder_semsup_cat_nodimred(x_hat, x, x_id, z_sample, cat_sa
     #marginal_likelihood = -tf.reduce_mean(tf.reduce_sum(tf.nn.sigmoid_cross_entropy_with_logits(logits=y_,labels=x), [1,2]))
 
     ## Style GAN 
+    #GAN for style information.
+    #Includes a discriminator to distinguish between z_real and z_fake.
     #----------------------
     z_real = z_sample
     z_fake = z
@@ -279,7 +291,7 @@ def adversarial_autoencoder_semsup_cat_nodimred(x_hat, x, x_id, z_sample, cat_sa
     G_loss = tf.reduce_mean(
         tf.nn.sigmoid_cross_entropy_with_logits(logits=D_fake_logits, labels=tf.ones_like(D_fake_logits)))
 
-    ## Cat GAN Loss
+    ## Cat GAN Loss (Defines a discriminator distinguish between cat_real and cat_fake.)
     #----------------------
     cat_real = cat_sample
     cat_fake = cat 
@@ -297,10 +309,12 @@ def adversarial_autoencoder_semsup_cat_nodimred(x_hat, x, x_id, z_sample, cat_sa
     G_loss_cat = tf.reduce_mean(
         tf.nn.sigmoid_cross_entropy_with_logits(logits=D_fake_logits_cat, labels=tf.ones_like(D_fake_logits_cat)))
     
+    #Total discriminator loss  = D_loss(Style GAN) + D_loss_cat(Cat GAN)
     #marginal_likelihood = tf.reduce_mean(marginal_likelihood)
     D_loss = tf.reduce_mean(D_loss+D_loss_cat)
     G_loss = tf.reduce_mean(G_loss+G_loss_cat)
 
+    #A categorical generative loss is calculated using softmax cross-entropy
     cat_gen_loss= tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=cat, labels=x_id))
     return y, z, marginal_likelihood, D_loss, G_loss, cat_gen_loss, cat 
 

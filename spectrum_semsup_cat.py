@@ -19,6 +19,7 @@ import plot_utils
 
 IMAGE_SIZE_MNIST = 28
 
+#Save Images
 def save_subimages(res,name):
     fig, ax = plt.subplots(nrows=len(res[0]) , ncols=len(res), sharex=True, sharey=True, figsize=(10, 10))
     #fig.text(0.45, 0.04, 'Continuous Features', ha='center')
@@ -45,8 +46,10 @@ def discrete_cmap(N, base_cmap=None):
     cmap_name = base.name + str(N)
     return base.from_list(cmap_name, color_list, N)
 
+
+ #Define required arguments
 """parsing and configuration"""
-def parse_args():
+def parse_args():                                          
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--results_path', type=str, default='results',
@@ -97,8 +100,8 @@ def parse_args():
 
     return check_args(parser.parse_args())
 
-"""checking arguments"""
-def check_args(args):
+#Checking arguments
+def check_args(args):                                               
 
     # --results_path
     try:
@@ -207,7 +210,7 @@ def main(args):
     RESULTS_DIR = args.results_path
 
     # network architecture
-    n_hidden = args.n_hidden
+    n_hidden = args.n_hidden                    #No of hidden layers
 
     # train
     n_epochs = args.num_epochs
@@ -249,9 +252,11 @@ def main(args):
             train_data = np.vstack((train_data,dtrain_data))
             train_labels = np.vstack((train_labels,dtrain_labels))
     '''
+    
     #train_data, train_labels, _,_,_,_,_ = synthetic_data.gendata()
     train_data, train_labels,_,_,_ = hackrf_data.gendata("./datadumps/sample_hackrf_data.csv")
     #train_data, train_labels = rawdata.gendata()
+    
     #Split the data
     train_data, train_labels = shuffle_in_unison_inplace(train_data, train_labels)
     splitval = int(train_data.shape[0] *0.5)
@@ -272,8 +277,11 @@ def main(args):
     nlabels = train_labels.shape[1]
     print(nlabels)
 
+    #Type of encoder
     encoder="CNN"
     #encoder="LSTM"
+    
+    
     dim_z = args.dimz # to visualize learned manifold
     enable_sel =False
     """ build graph """

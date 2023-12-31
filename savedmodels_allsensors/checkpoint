@@ -1,0 +1,2 @@
+model_checkpoint_path: "allsensors.ckpt"
+all_model_checkpoint_paths: "allsensors.ckpt"
