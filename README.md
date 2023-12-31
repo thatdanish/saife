@@ -62,4 +62,4 @@ Execute following commands on Terminal:
 ### Sample Run: 
 Run following command: 
 
-    python spectrum_semsup_cat.py --prior_type normal --num_epochs=510 --PMLR_n_samples=500 --learn_rate=0.05e-3 --dimz=50
+    python spectrum_semsup_cat.py --prior_type normal --num_epochs=10 --PMLR_n_samples=500 --learn_rate=0.05e-3 --dimz=50
