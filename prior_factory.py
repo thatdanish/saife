@@ -186,7 +186,8 @@ def swiss_roll(batch_size, n_dim=2, n_labels=10, label_indices=None):
     n_labels: Int
     Number of distinct labels (default is 10).
     label_indices: List or None
-    A list or array of label indices (optional).'''
+    A list or array of label indices (optional).
+    '''
     if n_dim != 2:
         raise Exception("n_dim must be 2.")
 

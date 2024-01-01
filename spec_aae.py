@@ -20,8 +20,8 @@ def add_ij(input_tensor, x_dim, y_dim, with_r=False):
     y_dim: Int
     The height dimension of the input tensor.
     with_r: Boolean
-    A boolean flag indicating whether to include an additional channel representing the radial distance from the center.'''
-    
+    A boolean flag indicating whether to include an additional channel representing the radial distance from the center.
+    '''    
     batch_size_tensor = tf.shape(input_tensor)[0]
     xx_ones = tf.ones([batch_size_tensor, x_dim],dtype=tf.int32)
     xx_ones = tf.expand_dims(xx_ones, -1)
@@ -57,8 +57,8 @@ def CNN_encoder_cat(x, tsamples, nsamples, n_output, nlabels=5):
     n_output: Int
     The number of output neurons in the regression branch of the network. 
     nlabels: Int
-    The number of classes in the categorical output branch. The default value is set to 5.'''
-    
+    The number of classes in the categorical output branch. The default value is set to 5.
+    '''    
     with tf.variable_scope("CNN_encoder_cat"):
         x = tf.reshape(x, shape=[-1, tsamples, nsamples, 1])
         #x = add_ij(x, tsamples, nsamples)
@@ -83,7 +83,8 @@ def CNN_encoder_cat(x, tsamples, nsamples, n_output, nlabels=5):
 
 
 def upsample(x):
-    '''Performs simple up-sampling.'''
+    '''Performs simple up-sampling.
+    '''
     shape = x.get_shape().as_list()
 
     r1 = tf.reshape(x, [shape[0], shape[1] * shape[2], 1, shape[3]])
@@ -218,7 +219,8 @@ def discriminator(z, n_hidden, n_output, keep_prob, reuse=False):
     keep_prob:  Float
     The probability of keeping a neuron during dropout. 
     reuse: Boolean
-    A boolean flag indicating whether to reuse the variables in the tf variable.'''
+    A boolean flag indicating whether to reuse the variables in the tf variable.
+    '''
     with tf.variable_scope("discriminator", reuse=reuse):
         # initializers
         
@@ -257,8 +259,8 @@ def discriminator_cat(z, n_hidden, n_output, keep_prob, reuse=False):
     keep_prob:  Float
     The probability of keeping a neuron during dropout. 
     reuse: Boolean
-    A boolean flag indicating whether to reuse the variables in the tf variable.'''
-
+    A boolean flag indicating whether to reuse the variables in the tf variable.
+    '''
     with tf.variable_scope("discriminator_cat", reuse=reuse):
         # initializers
         w_init = tf.contrib.layers.xavier_initializer()
@@ -296,8 +298,8 @@ def discriminator_zs(z, n_hidden, n_output, keep_prob, reuse=False):
     keep_prob:  Float
     The probability of keeping a neuron during dropout. 
     reuse: Boolean
-    A boolean flag indicating whether to reuse the variables in the tf variable.'''
-
+    A boolean flag indicating whether to reuse the variables in the tf variable.
+    '''
     with tf.variable_scope("discriminator_zs", reuse=reuse):
         # initializers
         w_init = tf.contrib.layers.xavier_initializer()
@@ -356,7 +358,8 @@ def adversarial_autoencoder_semsup_cat_nodimred(x_hat, x, x_id, z_sample, cat_sa
     nlabels: Int
     Number of categorical labels.
     vdim: Int
-    Dimensionality of categorical variables.'''
+    Dimensionality of categorical variables.
+    '''
     tsamples = dim_img[0]
     nsamples = dim_img[1]
     ## Reconstruction Loss

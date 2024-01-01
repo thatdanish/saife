@@ -21,6 +21,12 @@ IMAGE_SIZE_MNIST = 28
 
 #Save Images
 def save_subimages(res,name):
+    '''Save Images.
+    res: List
+    This is a 2D list of images.
+    name: String
+    saved image filename.
+    '''
     fig, ax = plt.subplots(nrows=len(res[0]) , ncols=len(res), sharex=True, sharey=True, figsize=(10, 10))
     #fig.text(0.45, 0.04, 'Continuous Features', ha='center')
     #fig.text(0.1, 0.45, 'Feature range [-1,1]', va='center', rotation='vertical')
@@ -35,7 +41,11 @@ def save_subimages(res,name):
 
 # borrowed from https://gist.github.com/jakevdp/91077b0cae40f8f8244a
 def discrete_cmap(N, base_cmap=None):
-    """Create an N-bin discrete colormap from the specified input map"""
+    """Create an N-bin discrete colormap from the specified input map.
+    N: Int  
+    The number of bins in the discrete colormap.
+    base_cmap: String or None or colormap instance.
+    The base colormap from which the discrete colormap is derived. """
 
     # Note that if base_cmap is a string or None, you can simply do
     #    return plt.cm.get_cmap(base_cmap, N)
@@ -48,8 +58,10 @@ def discrete_cmap(N, base_cmap=None):
 
 
  #Define required arguments
-"""parsing and configuration"""
-def parse_args():                                          
+
+def parse_args(): 
+    """Parsing and configuration
+    """                                         
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--results_path', type=str, default='results',
@@ -204,7 +216,21 @@ def shuffle_in_unison_inplace(a, b, c=[]):
 
 """main function"""
 def main(args):
-
+    '''Defines main adversarial autoencoder function.
+    The function performs:    
+        1) Setting Parameters : The function starts by setting various parameters based on the values passed through the args argument.
+        2) Data Preparation : Loads & prepares the dataset.
+        3) Model Building : The AAE model is defined using TensorFlow. The architecture of the model is specified, 
+            including the choice of encoder (either CNN or LSTM), the latent space dimension (dim_z), and the number of hidden layers (n_hidden).
+        4) Training Loop : The main training loop iterates over epochs and batches. For each batch, it performs the following steps:
+            i) Samples from the prior distribution to generate latent vectors (samples).
+            ii) Computes the reconstruction loss, discriminator loss, generator loss, and categorical generator loss.
+            iii) Updates the model parameters using the optimization operations.
+        5) Reproduce Performance and Manifold Learning Results: Periodically plotting and saving the reproduce performance and manifold learning results during training
+        6) Model Saving
+        7) Accuracy Calculation
+        8) Graph Saving
+    '''
     np.random.seed(1337)
     """ parameters """
     RESULTS_DIR = args.results_path
