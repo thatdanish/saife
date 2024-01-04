@@ -15,6 +15,9 @@ from matplotlib.ticker import FormatStrFormatter
 
 
 def lnorm(X_train):
+    '''Performs 2D normalization 
+    X_train: Numpy Nd array
+    '''
     print "Pad:", X_train.shape
     for i in range(X_train.shape[0]):
         for j in range(X_train.shape[1]):
@@ -22,11 +25,21 @@ def lnorm(X_train):
     return X_train
 
 def shuffle_in_unison_inplace(a, b):
+    '''Performs shuffling
+    a: List/Numpy Array
+    b: List/Numpy Array
+    '''
     assert len(a) == len(b)
     p = np.random.permutation(len(a))
     return a[p], b[p]
 
 def save_images(res,name):
+    '''Saves image
+    res : Numpy Array
+    Image array
+    name : String
+    Filename
+    '''
     plt.figure()
     plt.imshow(res, interpolation='none', aspect='auto')
     plt.colorbar(orientation='vertical')

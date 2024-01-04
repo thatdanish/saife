@@ -1,10 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
-nsamples = 64 
+
+nsamples = 64               #No. of samples
 train_cnt = 3000
 maxbw=30
 minbw=7
-fcnt=6
+fcnt=6                      #No. of frequency bins
 scnt = nsamples * fcnt
 predict=False
 #ltraffic=["single_cont", "mult_cont", "single_rshort", "mult_rshort", "det_hop"]
@@ -14,7 +15,7 @@ dl=[]
 for el in ltraffic:
     dl += [el]+["dummy"]*2
 #ltraffic=dl
-noiseval = 0.01
+noiseval = 0.01               
 mindb=5
 maxdb=20
 plotenable=False
@@ -27,6 +28,10 @@ pos_labels = []
 nsig_labels = []
 
 def gaussian(cnt):
+    '''Generates gaussian noise signal and performs signal processing operations
+    cnt: Int
+    No. of samples in each signal
+    '''
     indata = noiseval/np.sqrt(2)* (np.random.normal(size=(cnt,fcnt,nsamples)) + 1j* np.random.normal(size=(cnt,fcnt,nsamples)))
     outdata = 20*np.log10(np.abs(np.fft.fft(indata)/float(nsamples)))
     outdata = np.fft.fftshift(outdata,axes=(2,))
@@ -38,6 +43,12 @@ if predict:
 	pred_data = np.zeros((1,pcnt,nsamples),dtype=datatype)
 
 def gendata(noise=True, normalize=True):
+    '''Generated synthetic data of different signal types.
+    noise : Boolean
+    If true, noise will be added to the generated signal.
+    normalize : Boolean
+    If true, signal is converted to dB and then normalized to values between [0,1]
+    '''
     global train_data, train_labels, bw_labels, pos_labels, nsig_labels
     idx=0
     for traffic in ltraffic:
