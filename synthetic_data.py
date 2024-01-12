@@ -64,7 +64,7 @@ def gendata(noise=True, normalize=True):
     '''
     global train_data, train_labels, bw_labels, pos_labels, nsig_labels         #Use global variables
     idx=0
-    for traffic in ltraffic:                                                    #Iteration over each traffic type in selected 'ltraffic'
+    for traffic in ltraffic:                                                    
         if traffic == "single_cont":                                            #Continuous single tone modulation
             for i in range(train_cnt):                                          #Iterate over each training samples
                 sigbw = np.random.randint(minbw,maxbw)                          #Random modulation signal BW
@@ -83,8 +83,8 @@ def gendata(noise=True, normalize=True):
             train_labels = np.vstack((train_labels,dlabels))
             if plotenable:                                                      #plot
                 plt.figure(1)
-                print pos_labels[0]*nsamples
-                print bw_labels[0]*nsamples
+                # print pos_labels[0]*nsamples
+                # print bw_labels[0]*nsamples
                 plt.imshow(sigon1[0], interpolation='none')
                 plt.colorbar(orientation='vertical')
                 plt.show()
@@ -118,7 +118,7 @@ def gendata(noise=True, normalize=True):
                 plt.colorbar(orientation='vertical')
                 plt.show()
         elif traffic == "single_rshort":                                        #Short duration random binary patterns
-            for i in range(train_cnt):                                          #Iterate over each traning sample   
+            for i in range(train_cnt):                                          #Iterate over each training sample   
                 sigbw = np.random.randint(minbw,maxbw)                          #Random  signal BW
                 sigpos = np.random.randint(0, nsamples-sigbw)                   #Random  signal BW
                 bw_labels.append((sigbw/float(nsamples)))                       #Calculate and save BW label
@@ -127,7 +127,7 @@ def gendata(noise=True, normalize=True):
                 ipres = np.random.randint(2,size=fcnt).reshape(fcnt,1)          #Random binary column vector
                 sig = np.repeat(ipres,sigbw,axis=1)                             #Repeat each value of column vector sigbw times
                 sigon1=np.zeros((fcnt,nsamples))                                #place holder
-                sigon1[:,sigpos:sigpos+sigbw] = sig                             #Insert random binary signal as per its 'sigpos' in the final singal
+                sigon1[:,sigpos:sigpos+sigbw] = sig                             #Insert random binary signal as per its 'sigpos' in the final signal
                 snr = np.random.uniform(mindb,maxdb)                            #random generated SNR 
                 rintens = 10**(snr/20.0) * noiseval * nsamples/sigbw            #Calculate final signal intensity (received) from generated SNR
                 sigon1 =  sigon1 * rintens #+ gaussian()  
@@ -175,7 +175,7 @@ def gendata(noise=True, normalize=True):
                 plt.imshow(actsig[0], interpolation='none')
                 plt.colorbar(orientation='vertical')
                 plt.show()
-        elif traffic == "det_hop":                                              #Deteministic hop signal
+        elif traffic == "det_hop":                                              #Deterministic hop signal
             for i in range(train_cnt):                                          #Iterate over each training sample  
                 sigbw = np.random.randint(minbw,maxbw/2)                        #Random generated BW
                 sigpos = np.random.randint(0, nsamples-sigbw)                   #Random generated signal position
