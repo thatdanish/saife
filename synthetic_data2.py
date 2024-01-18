@@ -68,15 +68,15 @@ def gendata(noise=True, normalize=True):
     idx=0
     for traffic in ltraffic:                                                    
         if traffic == "single_cont":                                            #Continuous single tone modulation
-           gen_single_cont(train_cnt, plotenable)
+           train_data, train_labels = gen_single_cont(train_data,train_labels,train_cnt, idx, plotenable)
         elif traffic == "mult_cont":                                            #Multiple continuous single tone modulation
-           gen_multi_cont(train_cnt, plotenable)
+           train_data, train_labels = gen_multi_cont(train_data,train_labels,train_cnt, idx, plotenable)
         elif traffic == "single_rshort":                                        #Short duration random binary patterns
-           gen_single_rshort(train_cnt, plotenable)
+           train_data, train_labels = gen_single_rshort(train_data,train_labels,train_cnt, idx, plotenable)
         elif traffic == "mult_rshort":                                          #Multiple short duration random binary patterns
-           gen_multi_rshort(train_cnt, plotenable)
+           train_data, train_labels = gen_multi_rshort(train_data,train_labels,train_cnt, idx, plotenable)
         elif traffic == "det_hop":                                              #Deterministic hop signal
-           gen_det_hop(train_cnt, plotenable)
+           train_data, train_labels = gen_det_hop(train_data,train_labels,train_cnt, idx, plotenable)
         else:
             print("Traffic not defined")
         idx+=1

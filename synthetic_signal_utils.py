@@ -1,11 +1,17 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def gen_single_cont(train_cnt, plotenable):
+def gen_single_cont(train_data,train_labels,train_cnt, idx, plotenable):
     '''Generates synthetic signal of type 'Continuous single tone modulation'. 
     
+    train_data : NumPy Nd Array
+        Signal for training
+    train_labels : NumPy Nd Array
+        Signal labels for training
     train_cnt : Int
         No. of training samples to generate.
+    idx : Int
+        Signal index.
     plotenable : Boolean
         If True, signal plot is generated.
     '''
@@ -34,12 +40,19 @@ def gen_single_cont(train_cnt, plotenable):
         plt.colorbar(orientation='vertical')
         plt.show()
     
+    return train_data, train_labels
     
-def gen_multi_rshort(train_cnt, plotenable):
+def gen_multi_rshort(train_data,train_labels,train_cnt, idx,  plotenable):
     '''Generates synthetic signal of type 'Multiple short duration random binary pattern'. 
-    
+
+    train_data : NumPy Nd Array
+        Signal for training
+    train_labels : NumPy Nd Array
+        Signal labels for training 
     train_cnt : Int
         No. of training samples to generate.
+    idx : Int
+        Signal index.
     plotenable : Boolean
         If True, signal plot is generated.
     '''
@@ -78,12 +91,20 @@ def gen_multi_rshort(train_cnt, plotenable):
         plt.imshow(actsig[0], interpolation='none')
         plt.colorbar(orientation='vertical')
         plt.show()
-        
-def gen_single_rshort(train_cnt, plotenable):
-    '''Generates synthetic signal of type 'Short duration random binary pattern'. 
     
+    return train_data, train_labels
+
+def gen_single_rshort(train_data,train_labels,train_cnt, idx,  plotenable):
+    '''Generates synthetic signal of type 'Short duration random binary pattern'. 
+
+    train_data : NumPy Nd Array
+        Signal for training
+    train_labels : NumPy Nd Array
+        Signal labels for training
     train_cnt : Int
         No. of training samples to generate.
+    idx : Int
+        Signal index.
     plotenable : Boolean
         If True, signal plot is generated.
     '''
@@ -113,11 +134,18 @@ def gen_single_rshort(train_cnt, plotenable):
         plt.colorbar(orientation='vertical')
         plt.show()
     
-def gen_multi_cont(train_cnt, plotenable):
+    return train_data, train_labels
+def gen_multi_cont(train_data,train_labels,train_cnt, idx,  plotenable):
     '''Generates synthetic signal of type 'Multiple continuous single tone modulation'. 
     
+    train_data : NumPy Nd Array
+        Signal for training
+    train_labels : NumPy Nd Array
+        Signal labels for training
     train_cnt : Int
         No. of training samples to generate.
+    idx : Int
+        Signal index.
     plotenable : Boolean
         If True, signal plot is generated.
     '''
@@ -152,12 +180,19 @@ def gen_multi_cont(train_cnt, plotenable):
         plt.colorbar(orientation='vertical')
         plt.show()
         
+    return train_data, train_labels
 
-def gen_det_hop(train_cnt, plotenable):
+def gen_det_hop(train_data,train_labels,train_cnt, idx, plotenable):
     '''Generates synthetic signal of type 'Deteministic hop signal'. 
     
+    train_data : NumPy Nd Array
+        Signal for training
+    train_labels : NumPy Nd Array
+        Signal labels for training
     train_cnt : Int
         No. of training samples to generate.
+    idx : Int
+        Signal index.
     plotenable : Boolean
         If True, signal plot is generated.
     '''   
@@ -192,3 +227,9 @@ def gen_det_hop(train_cnt, plotenable):
         plt.colorbar(orientation='vertical')
         plt.show()
         
+    return train_data, train_labels
+
+def gen_dt(train_data,train_labels,train_cnt, plotenable):
+    pass
+    # return train_data, train_labels
+    
