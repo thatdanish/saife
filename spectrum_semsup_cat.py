@@ -217,6 +217,7 @@ def shuffle_in_unison_inplace(a, b, c=[]):
 """main function"""
 def main(args):
     '''Defines main adversarial autoencoder function.
+    
     The function performs:    
         1) Setting Parameters : The function starts by setting various parameters based on the values passed through the args argument.
         2) Data Preparation : Loads & prepares the dataset.

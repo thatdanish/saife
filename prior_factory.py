@@ -8,17 +8,17 @@ def uniform(batch_size, n_dim, n_labels=10, minv=-1, maxv=1, label_indices=None)
     '''Generates uniformly distributed random vectors.
     
     batch_size: Int
-    Number of vectors to generate.
+        Number of vectors to generate.
     n_dim: Int
-    Number of dimensions for each vector.
+        Number of dimensions for each vector.
     n_labels: Int
-    Number of distinct labels (default is 10).
+        Number of distinct labels (default is 10).
     minv: Int 
-    Minimum value for each element in the vector (default is -1).
+        Minimum value for each element in the vector (default is -1).
     maxv: Int
-    Maximum value for each element in the vector (default is 1).
+        Maximum value for each element in the vector (default is 1).
     label_indices: List or None
-    A list or array of label indices (optional).
+        A list or array of label indices (optional).
     '''
     if label_indices is not None:
         if n_dim != 2 or n_labels != 10:
@@ -45,17 +45,17 @@ def uniform(batch_size, n_dim, n_labels=10, minv=-1, maxv=1, label_indices=None)
 def gaussian(batch_size, n_dim, mean=0, var=1, n_labels=10, use_label_info=False):
     '''Generates normally distributed random vectors.
     batch_size: Int
-    Number of vectors to generate.
+        Number of vectors to generate.
     n_dim:Int
-    Number of dimensions for each vector.
+        Number of dimensions for each vector.
     mean: Int
-    Mean value for the normal distribution (default is 0).
+        Mean value for the normal distribution (default is 0).
     var: Int
-    Variance for the normal distribution (default is 1).
+        Variance for the normal distribution (default is 1).
     n_labels: Int
-    Number of distinct labels (default is 10).
+        Number of distinct labels (default is 10).
     use_label_info: Boolean
-    A boolean flag indicating whether to use label information (default is False).
+        A boolean flag indicating whether to use label information (default is False).
     '''
     if use_label_info:
         #if n_dim != 2 or n_labels != 10:
@@ -95,17 +95,17 @@ def gaussian(batch_size, n_dim, mean=0, var=1, n_labels=10, use_label_info=False
 def gaussian_multdim(batch_size, n_dim, mean=0, var=1, n_labels=10, use_label_info=False):
     '''Generates normally distributed random vectors in multiple dimensions.
     batch_size: Int
-    Number of vectors to generate.
+        Number of vectors to generate.
     n_dim: Int
-    Number of dimensions for each vector.
+        Number of dimensions for each vector.
     mean: Int
-    Mean value for the normal distribution (default is 0).
+        Mean value for the normal distribution (default is 0).
     var: Int
-    Variance for the normal distribution (default is 1).
+        Variance for the normal distribution (default is 1).
     n_labels: Int
-    Number of distinct labels (default is 10).
+        Number of distinct labels (default is 10).
     use_label_info: Int
-    A boolean flag indicating whether to use label information (default is False).
+        A boolean flag indicating whether to use label information (default is False).
     '''
     if use_label_info:
         def sample(n_labels):
@@ -141,17 +141,17 @@ def gaussian_multdim(batch_size, n_dim, mean=0, var=1, n_labels=10, use_label_in
 def gaussian_mixture(batch_size, n_dim=2, n_labels=10, x_var=0.5, y_var=0.1, label_indices=None):
     '''Generates random vectors in two dimensions based on a Gaussian mixture model.
     batch_size: Int
-    Number of vectors to generate.
+        Number of vectors to generate.
     n_dim: Int
-    Number of dimensions for each vector (default is 2).
+        Number of dimensions for each vector (default is 2).
     n_labels: Int
-    Number of distinct labels (default is 10).
+        Number of distinct labels (default is 10).
     x_var: float
-    Variance for the normal distribution along the x-axis (default is 0.5).
+        Variance for the normal distribution along the x-axis (default is 0.5).
     y_var: float
-    Variance for the normal distribution along the y-axis (default is 0.1).
+        Variance for the normal distribution along the y-axis (default is 0.1).
     label_indices: List or None
-    A list or array of label indices (optional).
+        A list or array of label indices (optional).
     '''
     if n_dim != 2:
         raise Exception("n_dim must be 2.")
@@ -180,13 +180,13 @@ def gaussian_mixture(batch_size, n_dim=2, n_labels=10, x_var=0.5, y_var=0.1, lab
 def swiss_roll(batch_size, n_dim=2, n_labels=10, label_indices=None):
     '''Generates random vectors in two dimensions to represent a swiss roll-like manifold.
     batch_size: Int
-    Number of vectors to generate.
+        Number of vectors to generate.
     n_dim: Int
-    Number of dimensions for each vector (default is 2).
+        Number of dimensions for each vector (default is 2).
     n_labels: Int
-    Number of distinct labels (default is 10).
+        Number of distinct labels (default is 10).
     label_indices: List or None
-    A list or array of label indices (optional).
+        A list or array of label indices (optional).
     '''
     if n_dim != 2:
         raise Exception("n_dim must be 2.")

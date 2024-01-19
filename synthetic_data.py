@@ -14,7 +14,7 @@ maxdb=20                    #Maximum SNR    (in dB)
 plotenable=False
 
 ########################################################################################################
-################## Types of synthetically generated signal data ########################################
+########################### Types of synthetically generated signal data ###############################
 #ltraffic=["single_cont", "mult_cont", "single_rshort", "mult_rshort", "det_hop"]
 ltraffic=["single_cont", "single_rshort", "mult_cont", "det_hop"]
 #ltraffic=["single_cont", "single_rshort", "det_hop"]
@@ -36,7 +36,7 @@ nsig_labels = []                                                #No. of modulati
 def gaussian(cnt):
     '''Generates gaussian noise signal and performs signal processing operations
     cnt: Int
-    No. of samples in each signal.
+        No. of samples in each signal.
     '''
     #complex Numpy array of shape (cnt, fcnt, nsamples)
     indata = noiseval/np.sqrt(2)* (np.random.normal(size=(cnt,fcnt,nsamples)) + 1j* np.random.normal(size=(cnt,fcnt,nsamples)))
@@ -58,9 +58,9 @@ if predict:
 def gendata(noise=True, normalize=True):
     '''Generated synthetic data for different signal types.
     noise : Boolean
-    If true, noise will be added to the generated signal.
+        If true, noise will be added to the generated signal.
     normalize : Boolean
-    If true, signal is converted to dB and then normalized.
+        If true, signal is converted to dB and then normalized.
     '''
     global train_data, train_labels, bw_labels, pos_labels, nsig_labels         #Use global variables
     idx=0

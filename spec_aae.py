@@ -12,15 +12,16 @@ def add_ij(input_tensor, x_dim, y_dim, with_r=False):
     """
     input_tensor: (batch, x_dim, y_dim, c)
     """
+    
     '''Augments additional channels.
     input_tensor: Tuple
-    The input tensor to which additional channels will be added. It has shape (batch, x_dim, y_dim, c).
+        The input tensor to which additional channels will be added. It has shape (batch, x_dim, y_dim, c).
     x_dim: Int
-    The width dimension of the input tensor.
+        The width dimension of the input tensor.
     y_dim: Int
-    The height dimension of the input tensor.
+        The height dimension of the input tensor.
     with_r: Boolean
-    A boolean flag indicating whether to include an additional channel representing the radial distance from the center.
+        A boolean flag indicating whether to include an additional channel representing the radial distance from the center.
     '''    
     batch_size_tensor = tf.shape(input_tensor)[0]
     xx_ones = tf.ones([batch_size_tensor, x_dim],dtype=tf.int32)
@@ -49,15 +50,15 @@ def add_ij(input_tensor, x_dim, y_dim, with_r=False):
 def CNN_encoder_cat(x, tsamples, nsamples, n_output, nlabels=5):
     '''CNN encoder.
     x: Tuple
-    The input tensor to the CNN encoder. 
+        The input tensor to the CNN encoder. 
     tsamples: Int
-    The number of samples along the time dimension in the input data.
+        The number of samples along the time dimension in the input data.
     nsamples: Int
-    The number of samples along the spatial dimension (e.g., width or height) in the input data.
+        The number of samples along the spatial dimension (e.g., width or height) in the input data.
     n_output: Int
-    The number of output neurons in the regression branch of the network. 
+        The number of output neurons in the regression branch of the network. 
     nlabels: Int
-    The number of classes in the categorical output branch. The default value is set to 5.
+        The number of classes in the categorical output branch. The default value is set to 5.
     '''    
     with tf.variable_scope("CNN_encoder_cat"):
         x = tf.reshape(x, shape=[-1, tsamples, nsamples, 1])
@@ -102,13 +103,13 @@ def upsample(x):
 def CNN_decoder(z, tsamples, nsamples,reuse=False):
     '''CNN decoder.
     z: 
-    The latent representation, input to the decoder.
+        The latent representation, input to the decoder.
     tsamples: Int
-    The number of samples along the time dimension in the output data that the decoder generates.
+        The number of samples along the time dimension in the output data that the decoder generates.
     nsamples: Int
-    The number of samples along the spatial dimension (e.g., width or height) in the output data.
+        The number of samples along the spatial dimension (e.g., width or height) in the output data.
     reuse: Int
-    A boolean flag indicating whether to reuse the variables in the tf variable scope. 
+        A boolean flag indicating whether to reuse the variables in the tf variable scope. 
     '''
     with tf.variable_scope("CNN_decoder", reuse=reuse):
         x = tflearn.fully_connected(z, 38*32, activation='tanh')
@@ -143,13 +144,13 @@ def CNN_decoder(z, tsamples, nsamples,reuse=False):
 def CNN_decoder_test(z, tsamples, nsamples,reuse=False):
     '''CNN decoder tester.
      z: 
-    The latent representation, input to the decoder.
+        The latent representation, input to the decoder.
     tsamples: Int
-    The number of samples along the time dimension in the output data that the decoder generates.
+        The number of samples along the time dimension in the output data that the decoder generates.
     nsamples: Int
-    The number of samples along the spatial dimension (e.g., width or height) in the output data.
+        The number of samples along the spatial dimension (e.g., width or height) in the output data.
     reuse: Int
-    A boolean flag indicating whether to reuse the variables in the tf variable scope. 
+        A boolean flag indicating whether to reuse the variables in the tf variable scope. 
     '''
     with tf.variable_scope("CNN_decoder", reuse=reuse):
         x = tflearn.fully_connected(z, nsamples/8*32*nsamples/8, activation='tanh')
@@ -184,13 +185,13 @@ def CNN_decoder_test(z, tsamples, nsamples,reuse=False):
 def LSTM_decoder(z, tsamples, nsamples,reuse=False):
     '''LSTM decoder.
      z: 
-    The latent representation, input to the decoder.
+        The latent representation, input to the decoder.
     tsamples: Int
-    The number of samples along the time dimension in the output data that the decoder generates.
+        The number of samples along the time dimension in the output data that the decoder generates.
     nsamples: Int
-    The number of samples along the spatial dimension (e.g., width or height) in the output data.
+        The number of samples along the spatial dimension (e.g., width or height) in the output data.
     reuse: Int
-    A boolean flag indicating whether to reuse the variables in the tf variable scope. 
+        A boolean flag indicating whether to reuse the variables in the tf variable scope. 
     '''
     with tf.variable_scope("LSTM_decoder", reuse=reuse):
         x = tflearn.fully_connected(z, nsamples*tsamples, activation='linear')
@@ -212,14 +213,15 @@ def LSTM_decoder(z, tsamples, nsamples,reuse=False):
 def discriminator(z, n_hidden, n_output, keep_prob, reuse=False):
     '''Defines discriminator neural network.(A component of GAN which classify whether a given input belongs to real or generated data).
     z: 
-    The input tensor to the discriminator. 
+        The input tensor to the discriminator. 
     n_hidden: Int
-    The number of units in the hidden layers of the discriminator.
-    n_output: IntThe number of units in the output layer of the discriminator.
+        The number of units in the hidden layers of the discriminator.
+    n_output: Int
+        The number of units in the output layer of the discriminator.
     keep_prob:  Float
-    The probability of keeping a neuron during dropout. 
+        The probability of keeping a neuron during dropout. 
     reuse: Boolean
-    A boolean flag indicating whether to reuse the variables in the tf variable.
+        A boolean flag indicating whether to reuse the variables in the tf variable.
     '''
     with tf.variable_scope("discriminator", reuse=reuse):
         # initializers
@@ -252,14 +254,15 @@ def discriminator(z, n_hidden, n_output, keep_prob, reuse=False):
 def discriminator_cat(z, n_hidden, n_output, keep_prob, reuse=False):
     '''Defines discriminator neural network.(A component of GAN which classify whether a given input belongs to real or generated data).
     z: 
-    The input tensor to the discriminator. 
+        The input tensor to the discriminator. 
     n_hidden: Int
-    The number of units in the hidden layers of the discriminator.
-    n_output: IntThe number of units in the output layer of the discriminator.
+        The number of units in the hidden layers of the discriminator.
+    n_output: Int
+        The number of units in the output layer of the discriminator.
     keep_prob:  Float
-    The probability of keeping a neuron during dropout. 
+        The probability of keeping a neuron during dropout. 
     reuse: Boolean
-    A boolean flag indicating whether to reuse the variables in the tf variable.
+        A boolean flag indicating whether to reuse the variables in the tf variable.
     '''
     with tf.variable_scope("discriminator_cat", reuse=reuse):
         # initializers
@@ -291,14 +294,15 @@ def discriminator_cat(z, n_hidden, n_output, keep_prob, reuse=False):
 def discriminator_zs(z, n_hidden, n_output, keep_prob, reuse=False):
     '''Defines discriminator neural network.(A component of GAN which classify whether a given input belongs to real or generated data).
     z: 
-    The input tensor to the discriminator. 
+        The input tensor to the discriminator. 
     n_hidden: Int
-    The number of units in the hidden layers of the discriminator.
-    n_output: IntThe number of units in the output layer of the discriminator.
+        The number of units in the hidden layers of the discriminator.
+    n_output: Int
+        The number of units in the output layer of the discriminator.
     keep_prob:  Float
-    The probability of keeping a neuron during dropout. 
+        The probability of keeping a neuron during dropout. 
     reuse: Boolean
-    A boolean flag indicating whether to reuse the variables in the tf variable.
+        A boolean flag indicating whether to reuse the variables in the tf variable.
     '''
     with tf.variable_scope("discriminator_zs", reuse=reuse):
         # initializers
@@ -338,27 +342,27 @@ def adversarial_autoencoder_semsup_cat_nodimred(x_hat, x, x_id, z_sample, cat_sa
     '''Defines autoencoder with additional component for semantic supervision (A process of providing additional,
     meaningful, and interpretable information to a machine learning model during training
     x_hat: 
-    The input tensor used for reconstruction.
+        The input tensor used for reconstruction.
     x:
-    The ground truth input tensor for reconstruction loss.
+        The ground truth input tensor for reconstruction loss.
     x_id: 
-    The ground truth categorical labels.
+        The ground truth categorical labels.
     z_sample: 
-    Real samples from the style distribution.
+        Real samples from the style distribution.
     cat_sample:
-    Real samples from the category distribution.
+        Real samples from the category distribution.
     dim_img: List
-    Dimensions of the input image.
+        Dimensions of the input image.
     dim_z: 
-    Dimensionality of the style information.
+        Dimensionality of the style information.
     n_hidden: Int
-    Number of hidden units in the discriminator.
+        Number of hidden units in the discriminator.
     keep_prob: Float
-    Probability of keeping a neuron during dropout.
+        Probability of keeping a neuron during dropout.
     nlabels: Int
-    Number of categorical labels.
+        Number of categorical labels.
     vdim: Int
-    Dimensionality of categorical variables.
+        Dimensionality of categorical variables.
     '''
     tsamples = dim_img[0]
     nsamples = dim_img[1]
